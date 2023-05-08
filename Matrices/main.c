@@ -1,13 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <ctype.h>
 
 int const colm = 4;
+int const colmP = 20;
 void cargarMatriz(int matriz[][colm], int dimF);
 void mostrarMatriz(int matriz[][colm],  int dimF);
 int sumarMatriz(int matriz[][colm],  int dimF);
 float promediarMatriz(int matriz[][colm],  int dimF, int suma);
 int buscarDato(int matriz[][colm], int dimF);
+int cargarArregloPalabras(char arreglo[][colmP], int dimF);
+int buscarString(char arreglo[][colmP], int f, char buscar[]);
 
 int main()
 {
@@ -30,6 +35,20 @@ int main()
     else
     {
         printf("El dato no se encuentra en la matriz");
+    }
+
+    char arregloPalabras[100];
+    int f;
+    f = cargarArregloPalabras(arregloPalabras, 100);
+    mostrarArregloPalabras(arregloPalabras, f);
+    
+    char palabra[5]= {"mateo"};
+    int confirm = buscarString(arregloPalabras, f, palabra);
+    if(confirm == 1){
+        printf("La palabra se encuentra en el arreglo \n");
+    }
+    else{
+        printf("La palabra no se encuentra en el arreglo. \n");
     }
     return 0;
 }
@@ -114,4 +133,42 @@ int buscarDato(int matriz[][colm], int dimF)
     }
 
     return flag;
+}
+
+int cargarArregloPalabras(char arreglo[][colmP], int dimF)
+{
+    int f = 0;
+    char control = 's';
+    while((f<dimF) && (control == 's'))
+    {
+        printf("\n Ingrese una palabra para ser cargada en la matriz \n");
+        fflush(stdin);
+        gets(arreglo[f]);
+
+        printf("Desea seguir cargando palabras? \n");
+        fflush(stdin);
+        scanf("%c", &control);
+        f++;
+    }
+    return f;
+}
+void mostrarArregloPalabras(char arreglo[][colmP], int f)
+{
+    for(int i=0; i<f; i++)
+    {
+        puts(arreglo[i]);
+    }
+}
+int buscarString(char arreglo[][colmP], int f, char buscar[])
+{
+    int res, posicion = 0, confirm = 0;
+    for(int i=0; i<f; i++)
+    {
+        res = strcmp(arreglo, buscar);
+        if(res == 0){
+            confirm = 1;
+            i = f;
+        }
+    }
+    return confirm;
 }
